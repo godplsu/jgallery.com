@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)https://api.drv.tw/~hiba.bsc.ihs@gmail.com/gd/?a=admin#authed=1 -->
+<html lang="en" style="height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta content="width=300, initial-scale=1" name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Admin Console - DriveToWeb</title>
+<!--<base href="https://www.drv.tw">--><base href=".">
+<link rel="stylesheet" type="text/css" href="./Admin Console - DriveToWeb_files/wd.css">
+<link rel="stylesheet" type="text/css" href="./Admin Console - DriveToWeb_files/wd-s.css" media="screen and (max-width: 580px)">
+<link rel="stylesheet" type="text/css" href="./Admin Console - DriveToWeb_files/font-awesome.min.css">
+<!-- Loads either as "...?a=admin" or /.b/gd/ /.b/od/ -->
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Admin Console - DriveToWeb_files/translateelement.css"><script type="text/javascript" charset="UTF-8" src="./Admin Console - DriveToWeb_files/m=el_main"></script></head>
+<body class="" style="position: relative; min-height: 100%; top: 0px;">
+    <h1 class="bar">Admin Panel</h1>
+    <div class="main instructions">
+        <h2>Congratulations!</h2>
+        <p>In a moment, you will find links to your shared web pages below.</p>
+        <div class="readmore" data-target="moreExample"></div>
+        <div id="moreExample" class="more">
+            <p>Your pages are cached for faster access. As a result, your edits may not be shown immediately.
+                <b>After you change your content, you may press <u>CTRL-F5</u> or <u>SHIFT-F5</u> in your browser to 
+                    force a refresh.</b></p>
+            <p>Read the <a href="https://docs-of.drv.tw/" target="_blank">DriveToWeb Docs</a> and learn about:</p>
+            <ul>
+                <li><a href="https://docs-of.drv.tw/application/static-blogs/" target="_blank">Blogging</a> with static 
+                    generators;</li>
+                <li>Using a <a href="https://docs-of.drv.tw/how-to/using-custom-domain-name/" target="_blank">your own domain name</a> to build your branded website;</li>
+                <li>Using a <a href="https://docs-of.drv.tw/how-to/using-cdn/" target="_blank">CDN</a> to 
+                    accelerate content access and provide security.</li>
+            </ul>        
+            <p>You can access this administrative panel when you sign in from <a href="https://www.drv.tw/">DriveToWeb</a>. 
+                This admin page is only visible to you, the owner of this cloud drive account.</p>
+            <p>Have a suggestion for improvement? <a href="mailto:drvtw@outlook.com">Tell us</a>
+                by email. Please send us your generous <a href="https://www.drv.tw/supportus.html">support</a>.</p>
+        </div>
+
+        <h2>Your web pages</h2>
+        <div id="looking" class="hidden">
+            <p>Searching for public HTML documents on your cloud drive. This may take a moment.</p>
+            <div class="centered">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p>If you have not uploaded and shared your files for all to view, now is the time to 
+                do it. Reload this page when you have finished.</p>
+        </div>
+        <div id="found" class="">
+            <p>You can now share the following web pages to everyone. Click to open:</p>
+            <ul id="htmlLinks"><li><a href="https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery%20CupCake/" target="_blank">https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery CupCake/</a></li><li><a href="https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery%20CupCake/about.html" target="_blank">https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery CupCake/about.html</a></li><li><a href="https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery%20CupCake/contact.html" target="_blank">https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery CupCake/contact.html</a></li><li><a href="https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery%20CupCake/locations.html" target="_blank">https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery CupCake/locations.html</a></li><li><a href="https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery%20CupCake/Menu.html" target="_blank">https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery CupCake/Menu.html</a></li><li><a href="https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery%20CupCake/order.html" target="_blank">https://2ug551zxaioanxyrj0epca.on.drv.tw/jgallery CupCake/order.html</a></li></ul>
+        </div>
+        <div id="nofile" class="hidden">
+            <p>We were unable to discover any public HTML page in your cloud drive account to show. Please 
+                upload some and share them so everyone can view. Reload this page when you have done so.</p>
+        </div>
+
+        <div id="experimental" class="">
+            <h2>Name your site</h2>
+            <p>Choose a name for your site (the prefix to your <i>.on.drv.tw</i> domain). You can even name it in 
+                international languages (see <a href="https://en.wikipedia.org/wiki/Internationalized_domain_name" target="_blank">Internationalized Domain Name</a>), subject to browser compatibility.</p>
+            <p><i>This feature is experimental, and may be withdrawn at any time without notice</i>, in which case you can 
+                regain access to your default site name by logging in to this Admin Panel.</p>
+            <label for="txtSiteName">Your site name:</label>
+            <input type="text" id="txtSiteName" onkeyup="onSiteNameChange()">
+            <p><span id="tipSiteNameCheck">Ill-formed site name. Allowed: a-z, 0-9, interleaving dash, and Unicode as <a href="https://unicode.org/faq/idn.html" target="_blank">IDN</a>.</span></p>
+            <button id="btnSetSiteName" disabled="">Set Site Name</button>
+            <button id="btnResetSiteName">Reset to Default</button>
+        </div>
+    </div>
+    <div id="footnotes">
+        <div class="left">
+            <a href="https://www.drv.tw/">Home / Sign-in</a>
+            <a href="https://www.drv.tw/tos.html" target="_blank">Terms</a>
+            <a href="https://www.drv.tw/privacy.html" target="_blank">Privacy</a>
+            <a href="https://twitter.com/drv_tw" target="_blank">Twitter</a>
+            <a href="mailto:drvtw@outlook.com">Email</a>
+            <a href="https://docs-of.drv.tw/" target="_blank">Docs</a>
+            <a href="https://www.drv.tw/supportus.html" title="Your support is greatly appreciated!" class="highlight">Support us</a>
+        </div>
+        <div class="right">
+            <div id="google_translate_element"><div class="skiptranslate goog-te-gadget" dir="ltr" style=""><div id=":0.targetLanguage" class="goog-te-gadget-simple" style="white-space: nowrap;"><img src="./Admin Console - DriveToWeb_files/cleardot.gif" class="goog-te-gadget-icon" alt="" style="background-image: url(&quot;https://translate.googleapis.com/translate_static/img/te_ctrl3.gif&quot;); background-position: -65px 0px;"><span style="vertical-align: middle;"><a aria-haspopup="true" class="goog-te-menu-value" href="javascript:void(0)"><span>Select Language</span><img src="./Admin Console - DriveToWeb_files/cleardot.gif" alt="" width="1" height="1"><span style="border-left: 1px solid rgb(187, 187, 187);">​</span><img src="./Admin Console - DriveToWeb_files/cleardot.gif" alt="" width="1" height="1"><span aria-hidden="true" style="color: rgb(118, 118, 118);">▼</span></a></span></div></div></div>
+        </div>
+    </div>
+<script type="text/javascript">
+function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, gaTrack: true, gaId: 'UA-85417367-1'}, 'google_translate_element');}
+</script><script type="text/javascript" src="./Admin Console - DriveToWeb_files/element.js.download"></script>
+<script src="./Admin Console - DriveToWeb_files/jquery-3.1.1.min.js.download" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="./Admin Console - DriveToWeb_files/punycode-2.1.0.min.js.download"></script>
+<script src="./Admin Console - DriveToWeb_files/admin.min.js.download"></script><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Admin Console - DriveToWeb_files/translate_24dp.png" width="20" height="20" alt="Google Translate"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Original text</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Contribute a better translation</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><iframe frameborder="0" class="goog-te-menu-frame skiptranslate" title="Language Translate Widget" style="visibility: visible; box-sizing: content-box; width: 1240px; height: 263px; display: none;" src="./Admin Console - DriveToWeb_files/saved_resource.html"></iframe></body></html>
