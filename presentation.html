@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information Systems - 3D Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 800px;
+            height: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slide h1 {
+            font-size: 48px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .slide h2 {
+            font-size: 36px;
+            color: #34495e;
+            margin-bottom: 30px;
+        }
+
+        .slide p, .slide ul {
+            font-size: 20px;
+            color: #555;
+            line-height: 1.8;
+            max-width: 700px;
+        }
+
+        .slide ul {
+            text-align: left;
+            list-style-position: inside;
+        }
+
+        .slide li {
+            margin: 15px 0;
+            padding-left: 10px;
+        }
+
+        .slide img {
+            max-width: 500px;
+            max-height: 300px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .controls button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .controls button:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.4);
+        }
+
+        .controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .highlight {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .slide-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">10</span>
+    </div>
+
+    <div class="controls">
+        <button id="prev-btn">← Previous</button>
+        <button id="next-btn">Next →</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Three.js Setup
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        // Slide data
+        const slides = [
+            {
+                title: "Information Systems",
+                subtitle: "Transforming Data into Knowledge",
+                content: "An Introduction to Modern Information Systems",
+                image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80"
+            },
+            {
+                title: "What is an Information System?",
+                content: `<ul>
+                    <li>A combination of hardware, software, and telecommunications networks</li>
+                    <li>Collects, processes, stores, and distributes information</li>
+                    <li>Supports decision-making and coordination</li>
+                    <li>Helps organizations achieve their goals</li>
+                </ul>`,
+                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80"
+            },
+            {
+                title: "Components of IS",
+                content: `<ul>
+                    <li><span class="highlight">Hardware:</span> Physical devices and equipment</li>
+                    <li><span class="highlight">Software:</span> Programs and applications</li>
+                    <li><span class="highlight">Data:</span> Raw facts and figures</li>
+                    <li><span class="highlight">People:</span> Users and IT professionals</li>
+                    <li><span class="highlight">Processes:</span> Procedures and workflows</li>
+                </ul>`,
+                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80"
+            },
+            {
+                title: "Types of Information Systems",
+                content: `<ul>
+                    <li>Transaction Processing Systems (TPS)</li>
+                    <li>Management Information Systems (MIS)</li>
+                    <li>Decision Support Systems (DSS)</li>
+                    <li>Executive Information Systems (EIS)</li>
+                    <li>Expert Systems (ES)</li>
+                </ul>`,
+                image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+            },
+            {
+                title: "Database Management",
+                content: `<ul>
+                    <li>Organized collection of structured data</li>
+                    <li>Enables efficient data storage and retrieval</li>
+                    <li>Ensures data integrity and security</li>
+                    <li>Supports multiple users simultaneously</li>
+                </ul>`,
+                image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&q=80"
+            },
+            {
+                title: "Network & Communication",
+                content: `<ul>
+                    <li>Connects computers and devices</li>
+                    <li>Enables data sharing and collaboration</li>
+                    <li>Internet, Intranet, and Extranet</li>
+                    <li>Cloud computing and distributed systems</li>
+                </ul>`,
+                image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?w=800&q=80"
+            },
+            {
+                title: "Information Security",
+                content: `<ul>
+                    <li>Protecting data from unauthorized access</li>
+                    <li>Confidentiality, Integrity, Availability (CIA)</li>
+                    <li>Encryption and authentication</li>
+                    <li>Cybersecurity threats and solutions</li>
+                </ul>`,
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80"
+            },
+            {
+                title: "Business Intelligence",
+                content: `<ul>
+                    <li>Transforms data into actionable insights</li>
+                    <li>Data analytics and visualization</li>
+                    <li>Predictive modeling and forecasting</li>
+                    <li>Supports strategic decision-making</li>
+                </ul>`,
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+            },
+            {
+                title: "Emerging Technologies",
+                content: `<ul>
+                    <li>Artificial Intelligence & Machine Learning</li>
+                    <li>Internet of Things (IoT)</li>
+                    <li>Blockchain Technology</li>
+                    <li>Big Data Analytics</li>
+                </ul>`,
+                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80"
+            },
+            {
+                title: "Future of Information Systems",
+                subtitle: "Innovation Never Stops",
+                content: "Embracing digital transformation for a smarter tomorrow",
+                image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80"
+            }
+        ];
+
+        // Create slide elements
+        slides.forEach((slideData, index) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'slide';
+            if (index === 0) slideDiv.classList.add('active');
+            
+            let content = '';
+            if (slideData.title) {
+                content += `<h1>${slideData.title}</h1>`;
+            }
+            if (slideData.subtitle) {
+                content += `<h2>${slideData.subtitle}</h2>`;
+            }
+            if (slideData.image) {
+                content += `<img src="${slideData.image}" alt="Slide ${index + 1}">`;
+            }
+            if (slideData.content) {
+                content += `<div class="slide-content">${slideData.content}</div>`;
+            }
+            
+            slideDiv.innerHTML = content;
+            container.appendChild(slideDiv);
+        });
+
+        // 3D Background Animation
+        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+        const material = new THREE.MeshNormalMaterial();
+        const torusKnot = new THREE.Mesh(geometry, material);
+        scene.add(torusKnot);
+
+        // Add particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 1000;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 100;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.3,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 30;
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            torusKnot.rotation.x += 0.005;
+            torusKnot.rotation.y += 0.005;
+            
+            particlesMesh.rotation.y += 0.001;
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Slide Navigation
+        let currentSlide = 0;
+        const slideElements = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideSpan = document.getElementById('current-slide');
+        const totalSlidesSpan = document.getElementById('total-slides');
+
+        totalSlidesSpan.textContent = slides.length;
+
+        function updateSlide() {
+            slideElements.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            currentSlideSpan.textContent = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+
+            // 3D transition effect
+            torusKnot.rotation.z += 0.5;
+            camera.position.z = 30 + Math.sin(currentSlide) * 2;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            } else if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        updateSlide();
+    </script>
+</body>
+</html>
